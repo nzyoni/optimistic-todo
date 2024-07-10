@@ -10,9 +10,7 @@ export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children })
         <AppShell
             layout="alt"
             header={{ height: 60 }}
-            footer={{ height: 60 }}
             navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-
             padding="md"
         >
             <AppShell.Header>
