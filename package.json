@@ -22,6 +22,7 @@
     "@mantine/core": "7.11.1",
     "@mantine/hooks": "7.11.1",
     "@next/bundle-analyzer": "^14.2.4",
+    "@ngneat/falso": "^7.2.0",
     "@tabler/icons-react": "^3.6.0",
     "next": "14.2.4",
     "react": "18.3.1",
