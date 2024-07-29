@@ -13,16 +13,11 @@ const code = `
   <Button onClick={()=> todoService.getAll()}>click me </Button>
 `;
 
-const fetchTodos = async () => {
-  const response = await fetch('/api/todo');
-  return response.json();
-};
-
 export default function IntroPage() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    fetchTodos().then(res => setTodos(res.todos));
+    todoService.getAll().then(res => setTodos(res.todos));
   }, []);
   return (
     <div>
@@ -44,15 +39,10 @@ export default function IntroPage() {
         </Grid>
         <TodoList
           todos={todos}
-          onToggle={async function (todo: TodoItemModel): Promise<void> {
-            console.log('todo', todo);
-          }}
-          onDelete={function (id: TodoItemModel['id']): Promise<void> {
-            throw new Error('Function not implemented.');
-          }}
-          onCreate={function (title: TodoItemModel['title']): Promise<void> {
-            throw new Error('Function not implemented.');
-          }} />
+          onToggle={todo => todoService.update(todo)}
+          onCreate={title => todoService.create(title)}
+          onDelete={id => todoService.remove(id)}
+        />
       </LiveProvider>
     </div>
   );
