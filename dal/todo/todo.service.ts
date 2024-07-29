@@ -49,7 +49,7 @@ const patch = async (id: TodoItemModel['id'], todo: Partial<Omit<TodoItemModel, 
     return response.json();
 };
 
-export const todoService = {
+export const todosService = {
     getAll,
     create,
     update,

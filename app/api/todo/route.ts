@@ -15,7 +15,7 @@ const todos: TodoItemModel[] = [
 ];
 
 export async function GET() {
-    return Response.json({ todos });
+    return Response.json(todos);
 }
 
 export async function POST(request: Request) {

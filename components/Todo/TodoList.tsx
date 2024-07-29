@@ -5,9 +5,9 @@ import { TodoItemModel } from '@/app/api/todo/route';
 
 export type TodoListProps = {
   todos: TodoItemModel[]
-  onToggle: (todo: TodoItemModel) => Promise<void>
-  onDelete: (id: TodoItemModel['id']) => Promise<void>
-  onCreate: (title: TodoItemModel['title']) => Promise<void>
+  onToggle: (todo: TodoItemModel) => void
+  onDelete: (id: TodoItemModel['id']) => void
+  onCreate: (title: TodoItemModel['title']) => void
 };
 export const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, onCreate }) => {
   const [newTodo, setNewTodo] = useState('');
@@ -28,7 +28,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, o
           <Group key={todo.id}>
             <Checkbox
               checked={todo.completed}
-              onChange={() => onToggle(todo)}
+              onChange={() => onToggle({ ...todo, completed: !todo.completed })}
               label={todo.title}
             />
 

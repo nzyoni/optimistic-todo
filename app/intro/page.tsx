@@ -1,24 +1,18 @@
 'use client';
 
 import { Button, Grid, Stack } from '@mantine/core';
-import { useEffect, useState } from 'react';
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live';
-import { todoService } from '@/dal/todo/todo.service';
+import { todosService } from '@/dal/todo/todo.service';
 import { TodoList } from '@/components/Todo/TodoList';
-import { TodoItemModel } from '../api/todo/route';
+import { useCreateTodo, useRemoveTodo, useTodos, useUpdateTodo } from '@/dal/todo/todo.resource.hooks';
 
-const scope = { Button, todoService };
+const scope = { Button, todoService: todosService };
 
 const code = `
   <Button onClick={()=> todoService.getAll()}>click me </Button>
 `;
 
 export default function IntroPage() {
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    todoService.getAll().then(res => setTodos(res.todos));
-  }, []);
   return (
     <div>
       <h1>Optimistic Todo</h1>
@@ -37,13 +31,28 @@ export default function IntroPage() {
             </Stack>
           </Grid.Col>
         </Grid>
-        <TodoList
-          todos={todos}
-          onToggle={todo => todoService.update(todo)}
-          onCreate={title => todoService.create(title)}
-          onDelete={id => todoService.remove(id)}
-        />
+        <AliveTodoList />
       </LiveProvider>
     </div>
   );
 }
+
+const AliveTodoList = () => {
+  const { data: todos, isLoading } = useTodos();
+  const { createTodo } = useCreateTodo();
+  const { removeTodo } = useRemoveTodo();
+  const { updateTodo } = useUpdateTodo();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <TodoList
+      todos={todos}
+      onCreate={title => createTodo(title)}
+      onToggle={todo => updateTodo(todo)}
+      onDelete={id => removeTodo(id)}
+    />
+  );
+};

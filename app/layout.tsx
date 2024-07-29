@@ -1,8 +1,8 @@
 import '@mantine/core/styles.css';
 import React from 'react';
-import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-import { theme } from '../theme';
+import { ColorSchemeScript } from '@mantine/core';
 import { SiteShell } from '@/components/SiteShell/SiteShell';
+import { Providers } from '@/components/providers';
 
 export const metadata = {
   title: 'Mantine Next.js template',
@@ -21,11 +21,11 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
+        <Providers>
           <SiteShell>
             {children}
           </SiteShell>
-        </MantineProvider>
+        </Providers>
       </body>
     </html>
   );
