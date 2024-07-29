@@ -6,10 +6,57 @@ import { todosService } from '@/dal/todo/todo.service';
 import { TodoList } from '@/components/Todo/TodoList';
 import { useCreateTodo, useRemoveTodo, useTodos, useUpdateTodo } from '@/dal/todo/todo.resource.hooks';
 
-const scope = { Button, todoService: todosService };
+const AliveTodoList = () => {
+  const { data: todos, isLoading } = useTodos();
+  const { createTodo } = useCreateTodo();
+  const { removeTodo } = useRemoveTodo();
+  const { updateTodo } = useUpdateTodo();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <TodoList
+      todos={todos}
+      onCreate={title => createTodo(title)}
+      onToggle={todo => updateTodo(todo)}
+      onDelete={id => removeTodo(id)}
+    />
+  );
+};
+
+const scope = {
+  Button,
+  todosService,
+  AliveTodoList,
+  TodoList,
+  useTodos,
+  useCreateTodo,
+  useRemoveTodo,
+  useUpdateTodo,
+};
 
 const code = `
-  <Button onClick={()=> todoService.getAll()}>click me </Button>
+() => {
+  const { data: todos, isLoading } = useTodos();
+  const { createTodo } = useCreateTodo();
+  const { removeTodo } = useRemoveTodo();
+  const { updateTodo } = useUpdateTodo();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <TodoList
+      todos={todos}
+      onCreate={title => createTodo(title)}
+      onToggle={todo => updateTodo(todo)}
+      onDelete={id => removeTodo(id)}
+    />
+  );
+};
 `;
 
 export default function IntroPage() {
@@ -36,23 +83,3 @@ export default function IntroPage() {
     </div>
   );
 }
-
-const AliveTodoList = () => {
-  const { data: todos, isLoading } = useTodos();
-  const { createTodo } = useCreateTodo();
-  const { removeTodo } = useRemoveTodo();
-  const { updateTodo } = useUpdateTodo();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <TodoList
-      todos={todos}
-      onCreate={title => createTodo(title)}
-      onToggle={todo => updateTodo(todo)}
-      onDelete={id => removeTodo(id)}
-    />
-  );
-};
